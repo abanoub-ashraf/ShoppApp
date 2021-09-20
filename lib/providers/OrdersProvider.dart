@@ -113,9 +113,4 @@ class OrdersProvider with ChangeNotifier {
             throw error;
         }
     }
-
-    void clearOrders() {
-        _orders = [];
-        notifyListeners();
-    }
 }
