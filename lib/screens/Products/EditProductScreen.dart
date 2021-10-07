@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +12,9 @@ import '../../models/ProductModel.dart';
 /// editing an existing one
 ///
 class EditProductScreen extends StatefulWidget {
+  
+    const EditProductScreen({Key? key}) : super(key: key);
+
     @override
     _EditProductScreenState createState() => _EditProductScreenState();
 }

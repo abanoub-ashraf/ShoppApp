@@ -1,19 +1,23 @@
+// ignore_for_file: file_names
+
 class AppConstants {
+    
     /// Routes
-    static const homeScreenRoute           = '/';
-    static const productDetailsRoute       = '/product-details';
-    static const cartScreenRoute           = '/cart-screen';
-    static const ordersScreenRoute         = '/orders-screen';
-    static const userProductsScreenRoute   = '/user-products-screen';
-    static const editProductScreenRoute    = '/edit-product-screen';
-    static const addNewProductScreenRoute  = '/add-new-product-screen';
+    static const productsOverviewScreenRoute    = '/products-overview-screen';
+    static const productDetailsRoute            = '/product-details';
+    static const cartScreenRoute                = '/cart-screen';
+    static const ordersScreenRoute              = '/orders-screen';
+    static const userProductsScreenRoute        = '/user-products-screen';
+    static const editProductScreenRoute         = '/edit-product-screen';
+    static const addNewProductScreenRoute       = '/add-new-product-screen';
+    static const authScreenRoute                = '/auth';
 
     /// API
     
     ///
     /// the base url shouldn't include the `https://` if i am gonna use Uri.https() method
     ///
-    static final firebaseURL             = 'shopapp-flutter-1dfc8-default-rtdb.firebaseio.com';
+    static const firebaseURL             = 'shopapp-flutter-1dfc8-default-rtdb.firebaseio.com';
     ///
     /// /products.json is the products table/collection in the firebase database
     ///

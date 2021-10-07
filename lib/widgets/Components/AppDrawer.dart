@@ -1,10 +1,15 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 import '../../utils/AppConstants.dart';
 
 class AppDrawer extends StatelessWidget {
+  
+    const AppDrawer({Key? key}) : super(key: key);
+
     TextStyle createStyle(BuildContext context) {
-        return TextStyle(
+        return const TextStyle(
             fontSize: 20, 
             color: Colors.black
         );
@@ -19,7 +24,7 @@ class AppDrawer extends StatelessWidget {
                     AppBar(
                         title: Container(
                             alignment: Alignment.centerLeft, 
-                            child: Text('Side Menu')
+                            child: const Text('Side Menu')
                         ),
                         ///
                         /// this means we will never add a back button in this appbar
@@ -27,7 +32,7 @@ class AppDrawer extends StatelessWidget {
                         ///
                         automaticallyImplyLeading: false
                     ),
-                    Divider(),
+                    const Divider(),
                     ListTile(
                         leading: Icon(
                             Icons.shop, 
@@ -42,7 +47,7 @@ class AppDrawer extends StatelessWidget {
                             ///
                             /// go to the products overview screen
                             ///
-                            Navigator.of(context).pushReplacementNamed(AppConstants.homeScreenRoute);
+                            Navigator.of(context).pushReplacementNamed(AppConstants.productsOverviewScreenRoute);
                         }
                     ),
                     ListTile(

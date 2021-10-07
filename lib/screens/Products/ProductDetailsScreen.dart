@@ -1,9 +1,14 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/ProductsProvider.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
+  
+    const ProductDetailsScreen({Key? key}) : super(key: key);
+
     @override
     Widget build(BuildContext context) {
         final productId = ModalRoute.of(context)?.settings.arguments as String;

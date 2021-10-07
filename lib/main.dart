@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/providers/ProductsProvider.dart';
+import 'package:shop_app/providers/CartProvider.dart';
+import 'package:shop_app/providers/OrdersProvider.dart';
+import 'package:shop_app/screens/Auth/AuthScreen.dart';
+import 'package:shop_app/screens/Products/ProductsOverviewScreen.dart';
+import 'package:shop_app/screens/Products/ProductDetailsScreen.dart';
+import 'package:shop_app/screens/Cart/CartScreen.dart';
+import 'package:shop_app/screens/Orders/OrdersScreen.dart';
+import 'package:shop_app/screens/Products/UserProductsScreen.dart';
+import 'package:shop_app/screens/Products/EditProductScreen.dart';
+import 'package:shop_app/screens/Products/AddNewProductScreen.dart';
+import 'package:shop_app/utils/AppConstants.dart';
 
-import './providers/ProductsProvider.dart';
-import './providers/CartProvider.dart';
-import './providers/OrdersProvider.dart';
-
-import './screens/Products/ProductsOverviewScreen.dart';
-import './screens/Products/ProductDetailsScreen.dart';
-import './screens/Cart/CartScreen.dart';
-import './screens/Orders/OrdersScreen.dart';
-import './screens/Products/UserProductsScreen.dart';
-import './screens/Products/EditProductScreen.dart';
-import './screens/Products/AddNewProductScreen.dart';
-
-import './utils/AppConstants.dart';
-
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  
+    const MyApp({Key? key}) : super(key: key);
+
     @override
     Widget build(BuildContext context) {
         ///
@@ -52,15 +53,16 @@ class MyApp extends StatelessWidget {
                         .fromSwatch(primarySwatch: Colors.indigo)
                         .copyWith(secondary: Colors.indigoAccent)
                 ),
-                // home: ProductsOverviewScreen(),
+                home: const AuthScreen(),
                 routes: {
-                    AppConstants.homeScreenRoute: (ctx) => ProductsOverviewScreen(),
-                    AppConstants.productDetailsRoute: (ctx) => ProductDetailsScreen(),
-                    AppConstants.cartScreenRoute: (ctx) => CartScreen(),
-                    AppConstants.ordersScreenRoute: (ctx) => OrdersScreen(),
-                    AppConstants.userProductsScreenRoute: (ctx) => UserProductsScreen(),
-                    AppConstants.editProductScreenRoute: (ctx) => EditProductScreen(),
-                    AppConstants.addNewProductScreenRoute: (ctx) => AddNewProductScreen()
+                    AppConstants.productsOverviewScreenRoute:   (ctx) => const ProductsOverviewScreen(),
+                    AppConstants.productDetailsRoute:           (ctx) => const ProductDetailsScreen(),
+                    AppConstants.cartScreenRoute:               (ctx) => const CartScreen(),
+                    AppConstants.ordersScreenRoute:             (ctx) => const OrdersScreen(),
+                    AppConstants.userProductsScreenRoute:       (ctx) => const UserProductsScreen(),
+                    AppConstants.editProductScreenRoute:        (ctx) => const EditProductScreen(),
+                    AppConstants.addNewProductScreenRoute:      (ctx) => const AddNewProductScreen(),
+                    AppConstants.authScreenRoute:               (ctx) => const AuthScreen(),
                 }
             )
         );

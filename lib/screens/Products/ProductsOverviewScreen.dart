@@ -1,13 +1,12 @@
+// ignore_for_file: file_names, constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../providers/ProductsProvider.dart';
 import '../../providers/CartProvider.dart';
-
 import '../../widgets/Products/ProductsGridView.dart';
 import '../../widgets/Components/Badge.dart';
 import '../../widgets/Components/AppDrawer.dart';
-
 import '../../utils/AppConstants.dart';
 
 enum FilterOptions {
@@ -16,6 +15,9 @@ enum FilterOptions {
 }
 
 class ProductsOverviewScreen extends StatefulWidget {
+    
+    const ProductsOverviewScreen({Key? key}) : super(key: key);
+
     @override
     _ProductsOverviewScreenState createState() => _ProductsOverviewScreenState();
 }

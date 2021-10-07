@@ -1,11 +1,14 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 import '../../utils/AppConstants.dart';
 
 class NoItemsWidget extends StatelessWidget {
+    
     final String textString;
 
-    NoItemsWidget(this.textString);
+    const NoItemsWidget(this.textString, {Key? key}) : super(key: key);
 
     @override
     Widget build(BuildContext context) {
@@ -14,7 +17,7 @@ class NoItemsWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
                 Container(
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     alignment: Alignment.center,
                     child: Text(
                         textString,
@@ -25,9 +28,9 @@ class NoItemsWidget extends StatelessWidget {
                         )
                     ) 
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 ElevatedButton(
-                    child: Text(
+                    child: const Text(
                         'Browse',
                         style: TextStyle(
                             color: Colors.white,
@@ -35,7 +38,7 @@ class NoItemsWidget extends StatelessWidget {
                         )
                     ),
                     onPressed: () {
-                        Navigator.of(context).pushNamed(AppConstants.homeScreenRoute);
+                        Navigator.of(context).pushNamed(AppConstants.productsOverviewScreenRoute);
                     } 
                 )
             ]

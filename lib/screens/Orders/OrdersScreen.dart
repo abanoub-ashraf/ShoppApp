@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -8,6 +10,9 @@ import '../../widgets/Components/AppDrawer.dart';
 import '../../widgets/Components/NoItemsWidget.dart';
 
 class OrdersScreen extends StatefulWidget {
+  
+    const OrdersScreen({Key? key}) : super(key: key);
+
     @override
     State<OrdersScreen> createState() => _OrdersScreenState();
 }

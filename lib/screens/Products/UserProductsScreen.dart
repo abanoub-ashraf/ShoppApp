@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -12,6 +14,9 @@ import '../../utils/AppConstants.dart';
 /// shows the products of the user
 ///
 class UserProductsScreen extends StatelessWidget {
+  
+    const UserProductsScreen({Key? key}) : super(key: key);
+
     Future<void> _refreshProducts(BuildContext context) async {
         ///
         /// - listen is false here cause in here we just wanna trigger the fetch method without

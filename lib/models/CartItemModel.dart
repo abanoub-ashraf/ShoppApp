@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 class CartItemModel {
     ///
     /// this is the id of the cart item and it's not the same as 

@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -24,10 +26,10 @@ class CartScreen extends StatelessWidget {
 
         return Scaffold(
             appBar: AppBar(
-                title: Text('Your Cart'),
+                title: const Text('Your Cart'),
                 actions: [
                     IconButton(
-                        icon: Icon(
+                        icon: const Icon(
                             Icons.delete_forever,
                             size: 30
                         ),
@@ -41,7 +43,7 @@ class CartScreen extends StatelessWidget {
                 ? NoItemsWidget('Your Cart is Empty\n click on Browse to browse Products')
                 : Column(
                     children: [
-                        SizedBox(
+                        const SizedBox(
                             height: 10
                         ),
                         ///
