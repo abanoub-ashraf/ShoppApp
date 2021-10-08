@@ -9,6 +9,8 @@ class AppConstants {
 
     static final signupEndpoint     = Uri.parse('$apiBaseURL/accounts:signUp?key=${Config.APIKey}');
 
+    static final signInEndpoint     = Uri.parse('$apiBaseURL/accounts:signInWithPassword?key=${Config.APIKey}');
+
     /// DB
     
     ///

@@ -3,24 +3,33 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as NetworkManager;
-import 'package:pretty_json/pretty_json.dart';
+import 'package:print_color/print_color.dart';
 import 'package:shop_app/utils/AppConstants.dart';
+import 'package:shop_app/utils/ConsoleLogger.dart';
 
 class AuthProvider extends ChangeNotifier {
-    String _token = '';
-    DateTime _expiryDate = DateTime.now();
-    String _userId = '';
+    late String _token;
+    late DateTime _expiryDate;
+    late String _userId;
 
-    Future<void> signup(String email, String password) async {        
+    Future<void> _authenticate(String email, String password, Uri endpoint) async {
         final response = await NetworkManager.post(
-            AppConstants.signupEndpoint,
+            endpoint,
             body: json.encode({
                 'email': email, 
                 'password': password, 
                 'returnSecureToken': true
             })
         );
-        
-        printPrettyJson(json.decode(response.body));
+
+        ConsoleLogger.logger.i(json.decode(response.body));
+    }
+
+    Future<void> signup(String email, String password) async {        
+        return _authenticate(email, password, AppConstants.signupEndpoint);
+    }
+
+    Future<void> signIn(String email, String password) async {        
+        return _authenticate(email, password, AppConstants.signInEndpoint);
     }
 }

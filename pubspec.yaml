@@ -26,6 +26,7 @@ dependencies:
   http: ^0.13.3
   print_color: ^3.0.3
   pretty_json: ^2.0.0
+  logger: ^1.1.0
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
