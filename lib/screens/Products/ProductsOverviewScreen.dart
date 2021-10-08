@@ -7,7 +7,7 @@ import '../../providers/CartProvider.dart';
 import '../../widgets/Products/ProductsGridView.dart';
 import '../../widgets/Components/Badge.dart';
 import '../../widgets/Components/AppDrawer.dart';
-import '../../utils/AppConstants.dart';
+import '../../utils/AppRoutes.dart';
 
 enum FilterOptions {
     Favorites,
@@ -83,11 +83,11 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                     showDialog<Null>(
                         context: context, 
                         builder: (ctx) => AlertDialog(
-                            title: Text('Something went wrong.'),
+                            title: const Text('Something went wrong.'),
                             content: Text('$error'),
                             actions: [
                                 TextButton(
-                                    child: Text('Okay'),
+                                    child: const Text('Okay'),
                                     onPressed: () {
                                         Navigator.of(ctx).pop();
                                     }
@@ -125,10 +125,10 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
     Widget build(BuildContext context) {
         return Scaffold(
             appBar: AppBar(
-                title: Text('ShopApp'),
+                title: const Text('ShopApp'),
                 actions: [
                     PopupMenuButton(
-                        icon: Icon(Icons.more_vert),
+                        icon: const Icon(Icons.more_vert),
                         itemBuilder: (_) => [
                             PopupMenuItem(
                                 child: Text(
@@ -172,17 +172,17 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                         /// this static child won't rebuilt again when the provider changes 
                         ///
                         child: IconButton(
-                            icon: Icon(Icons.shopping_cart),
+                            icon: const Icon(Icons.shopping_cart),
                             onPressed: () {
-                                Navigator.of(context).pushNamed(AppConstants.cartScreenRoute);
+                                Navigator.of(context).pushNamed(AppRoutes.cartScreenRoute);
                             }
                         )
                     )
                 ]
             ),
-            drawer: AppDrawer(),
+            drawer: const AppDrawer(),
             body: _isLoading 
-                ? Center(child: CircularProgressIndicator()) 
+                ? const Center(child: CircularProgressIndicator()) 
                 : ProductsGridView(_showOnlyFavorites)
         );
     }

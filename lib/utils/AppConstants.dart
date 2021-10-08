@@ -1,29 +1,26 @@
 // ignore_for_file: file_names
 
-class AppConstants {
-    
-    /// Routes
-    static const productsOverviewScreenRoute    = '/products-overview-screen';
-    static const productDetailsRoute            = '/product-details';
-    static const cartScreenRoute                = '/cart-screen';
-    static const ordersScreenRoute              = '/orders-screen';
-    static const userProductsScreenRoute        = '/user-products-screen';
-    static const editProductScreenRoute         = '/edit-product-screen';
-    static const addNewProductScreenRoute       = '/add-new-product-screen';
-    static const authScreenRoute                = '/auth';
+import 'package:shop_app/utils/Config.dart';
 
+class AppConstants {
     /// API
+    
+    static const apiBaseURL         = 'https://identitytoolkit.googleapis.com/v1';
+
+    static final signupEndpoint     = Uri.parse('$apiBaseURL/accounts:signUp?key=${Config.APIKey}');
+
+    /// DB
     
     ///
     /// the base url shouldn't include the `https://` if i am gonna use Uri.https() method
     ///
-    static const firebaseURL             = 'shopapp-flutter-1dfc8-default-rtdb.firebaseio.com';
+    static const firebaseURL                = 'shopapp-flutter-1dfc8-default-rtdb.firebaseio.com';
     ///
     /// /products.json is the products table/collection in the firebase database
     ///
-    static final productsDBCollectionURL = Uri.https(firebaseURL, '/products.json');
+    static final productsDBCollectionURL    = Uri.https(firebaseURL, '/products.json');
     ///
     /// /orders.json is the orders table/collection in the firebase database
     ///
-    static final ordersDBCollectionURL   = Uri.https(firebaseURL, '/orders.json');
+    static final ordersDBCollectionURL      = Uri.https(firebaseURL, '/orders.json');
 }

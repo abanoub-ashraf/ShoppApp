@@ -49,7 +49,7 @@ class ProductDetailsScreen extends StatelessWidget {
                                 fit: BoxFit.cover
                             )
                         ),
-                        SizedBox(
+                        const SizedBox(
                             height: 10
                         ),
                         Text(
@@ -59,11 +59,11 @@ class ProductDetailsScreen extends StatelessWidget {
                                 fontSize: 22
                             )
                         ),
-                        SizedBox(
+                        const SizedBox(
                             height: 10
                         ),
                         Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 horizontal: 10
                             ),
                             width: double.infinity,

@@ -1,8 +1,7 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-
-import '../../utils/AppConstants.dart';
+import 'package:shop_app/utils/AppRoutes.dart';
 
 class AppDrawer extends StatelessWidget {
   
@@ -47,7 +46,7 @@ class AppDrawer extends StatelessWidget {
                             ///
                             /// go to the products overview screen
                             ///
-                            Navigator.of(context).pushReplacementNamed(AppConstants.productsOverviewScreenRoute);
+                            Navigator.of(context).pushReplacementNamed(AppRoutes.productsOverviewScreenRoute);
                         }
                     ),
                     ListTile(
@@ -64,7 +63,7 @@ class AppDrawer extends StatelessWidget {
                             ///
                             /// go to the carts screen
                             ///
-                            Navigator.of(context).pushNamed(AppConstants.cartScreenRoute);
+                            Navigator.of(context).pushNamed(AppRoutes.cartScreenRoute);
                         }
                     ),
                     ListTile(
@@ -81,7 +80,7 @@ class AppDrawer extends StatelessWidget {
                             ///
                             /// go to the orders screen
                             ///
-                            Navigator.of(context).pushReplacementNamed(AppConstants.ordersScreenRoute);
+                            Navigator.of(context).pushReplacementNamed(AppRoutes.ordersScreenRoute);
                         }
                     ),
                     ListTile(
@@ -98,7 +97,7 @@ class AppDrawer extends StatelessWidget {
                             ///
                             /// go to the user products screen
                             ///
-                            Navigator.of(context).pushReplacementNamed(AppConstants.userProductsScreenRoute);
+                            Navigator.of(context).pushReplacementNamed(AppRoutes.userProductsScreenRoute);
                         }
                     )
                 ]

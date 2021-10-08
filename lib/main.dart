@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/providers/AuthProvider.dart';
 import 'package:shop_app/providers/ProductsProvider.dart';
 import 'package:shop_app/providers/CartProvider.dart';
 import 'package:shop_app/providers/OrdersProvider.dart';
@@ -11,7 +12,7 @@ import 'package:shop_app/screens/Orders/OrdersScreen.dart';
 import 'package:shop_app/screens/Products/UserProductsScreen.dart';
 import 'package:shop_app/screens/Products/EditProductScreen.dart';
 import 'package:shop_app/screens/Products/AddNewProductScreen.dart';
-import 'package:shop_app/utils/AppConstants.dart';
+import 'package:shop_app/utils/AppRoutes.dart';
 
 void main() => runApp(const MyApp());
 
@@ -43,7 +44,8 @@ class MyApp extends StatelessWidget {
             providers: [
                 ChangeNotifierProvider(create: (ctx) => ProductsProvider()),
                 ChangeNotifierProvider(create: (ctx) => CartProvider()),
-                ChangeNotifierProvider(create: (ctx) => OrdersProvider())
+                ChangeNotifierProvider(create: (ctx) => OrdersProvider()),
+                ChangeNotifierProvider.value(value: AuthProvider())
             ],
             child: MaterialApp(
                 title: 'ShopApp',
@@ -55,14 +57,14 @@ class MyApp extends StatelessWidget {
                 ),
                 home: const AuthScreen(),
                 routes: {
-                    AppConstants.productsOverviewScreenRoute:   (ctx) => const ProductsOverviewScreen(),
-                    AppConstants.productDetailsRoute:           (ctx) => const ProductDetailsScreen(),
-                    AppConstants.cartScreenRoute:               (ctx) => const CartScreen(),
-                    AppConstants.ordersScreenRoute:             (ctx) => const OrdersScreen(),
-                    AppConstants.userProductsScreenRoute:       (ctx) => const UserProductsScreen(),
-                    AppConstants.editProductScreenRoute:        (ctx) => const EditProductScreen(),
-                    AppConstants.addNewProductScreenRoute:      (ctx) => const AddNewProductScreen(),
-                    AppConstants.authScreenRoute:               (ctx) => const AuthScreen(),
+                    AppRoutes.productsOverviewScreenRoute:   (ctx) => const ProductsOverviewScreen(),
+                    AppRoutes.productDetailsRoute:           (ctx) => const ProductDetailsScreen(),
+                    AppRoutes.cartScreenRoute:               (ctx) => const CartScreen(),
+                    AppRoutes.ordersScreenRoute:             (ctx) => const OrdersScreen(),
+                    AppRoutes.userProductsScreenRoute:       (ctx) => const UserProductsScreen(),
+                    AppRoutes.editProductScreenRoute:        (ctx) => const EditProductScreen(),
+                    AppRoutes.addNewProductScreenRoute:      (ctx) => const AddNewProductScreen(),
+                    AppRoutes.authScreenRoute:               (ctx) => const AuthScreen(),
                 }
             )
         );

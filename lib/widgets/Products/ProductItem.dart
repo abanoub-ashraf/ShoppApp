@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -5,7 +7,7 @@ import '../../providers/CartProvider.dart';
 
 import '../../models/ProductModel.dart';
 
-import '../../utils/AppConstants.dart';
+import '../../utils/AppRoutes.dart';
 
 class ProductItem extends StatelessWidget {
     SnackBar createSnackBar(String textString, ThemeData theme) {
@@ -14,7 +16,7 @@ class ProductItem extends StatelessWidget {
                 textString,
                 textAlign: TextAlign.center
             ),
-            duration: Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
             backgroundColor: theme.primaryColor
         );
     }
@@ -49,7 +51,7 @@ class ProductItem extends StatelessWidget {
                 child: GestureDetector(
                     onTap: () {
                         Navigator.of(context).pushNamed(
-                            AppConstants.productDetailsRoute,
+                            AppRoutes.productDetailsRoute,
                             arguments: productModelProvider.id
                         );
                     },
@@ -109,7 +111,7 @@ class ProductItem extends StatelessWidget {
                     ),
                     trailing: IconButton(
                         color: Theme.of(context).colorScheme.secondary,
-                        icon: Icon(Icons.shopping_cart),
+                        icon: const Icon(Icons.shopping_cart),
                         onPressed: () {
                             ///
                             /// - add the item to the cart
@@ -134,7 +136,7 @@ class ProductItem extends StatelessWidget {
                             ///
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text('${productModelProvider.title} is added to the Cart!'),
-                                duration: Duration(seconds: 2),
+                                duration: const Duration(seconds: 2),
                                 backgroundColor: Theme.of(context).primaryColor,
                                 action: SnackBarAction(
                                     textColor: Colors.indigo.shade200,

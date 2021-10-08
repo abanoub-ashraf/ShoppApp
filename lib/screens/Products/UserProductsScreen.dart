@@ -2,13 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:shop_app/utils/AppRoutes.dart';
 import '../../providers/ProductsProvider.dart';
-
 import '../../widgets/Products/UserProductItem.dart';
 import '../../widgets/Components/AppDrawer.dart';
-
-import '../../utils/AppConstants.dart';
 
 ///
 /// shows the products of the user
@@ -45,7 +42,7 @@ class UserProductsScreen extends StatelessWidget {
                             size: 40
                         ),
                         onPressed: () {
-                            Navigator.of(context).pushNamed(AppConstants.addNewProductScreenRoute);
+                            Navigator.of(context).pushNamed(AppRoutes.addNewProductScreenRoute);
                         }
                     )
                 ]

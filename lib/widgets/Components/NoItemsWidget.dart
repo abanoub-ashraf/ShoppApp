@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../../utils/AppConstants.dart';
+import '../../utils/AppRoutes.dart';
 
 class NoItemsWidget extends StatelessWidget {
     
@@ -38,7 +38,7 @@ class NoItemsWidget extends StatelessWidget {
                         )
                     ),
                     onPressed: () {
-                        Navigator.of(context).pushNamed(AppConstants.productsOverviewScreenRoute);
+                        Navigator.of(context).pushNamed(AppRoutes.productsOverviewScreenRoute);
                     } 
                 )
             ]

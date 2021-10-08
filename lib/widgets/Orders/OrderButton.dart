@@ -1,9 +1,11 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 
 import '../../providers/CartProvider.dart';
 import '../../providers/OrdersProvider.dart';
 
-import '../../utils/AppConstants.dart';
+import '../../utils/AppRoutes.dart';
 
 class OrderButton extends StatefulWidget {
     final CartProvider cartProvider;
@@ -26,8 +28,8 @@ class _OrderButtonState extends State<OrderButton> {
     Widget build(BuildContext context) {
         return ElevatedButton(
             child: _isLoading 
-                ? CircularProgressIndicator() 
-                : Text('ORDER NOW'),
+                ? const CircularProgressIndicator() 
+                : const Text('ORDER NOW'),
             style: ButtonStyle(
                 backgroundColor: _isLoading 
                     ? MaterialStateProperty.all(Colors.white) 
@@ -57,16 +59,16 @@ class _OrderButtonState extends State<OrderButton> {
 
                         widget.cartProvider.clearCart();
 
-                        Navigator.of(context).pushNamed(AppConstants.ordersScreenRoute);
+                        Navigator.of(context).pushNamed(AppRoutes.ordersScreenRoute);
                     } catch (error) {
                         await showDialog<Null>(
                             context: context, 
                             builder: (ctx) => AlertDialog(
-                                title: Text('An Error occurred!'),
-                                content: Text('Something went wrong.'),
+                                title: const Text('An Error occurred!'),
+                                content: const Text('Something went wrong.'),
                                 actions: [
                                     TextButton(
-                                        child: Text('Okay'),
+                                        child: const Text('Okay'),
                                         onPressed: () {
                                             Navigator.of(ctx).pop();
                                         }

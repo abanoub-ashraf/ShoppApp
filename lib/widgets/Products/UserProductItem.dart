@@ -1,9 +1,11 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../providers/ProductsProvider.dart';
 
-import '../../utils/AppConstants.dart';
+import '../../utils/AppRoutes.dart';
 
 class UserProductItem extends StatelessWidget {
     final String id;
@@ -18,7 +20,7 @@ class UserProductItem extends StatelessWidget {
                 textString,
                 textAlign: TextAlign.center
             ),
-            duration: Duration(seconds: 2),
+            duration: const Duration(seconds: 2),
             backgroundColor: theme.primaryColor
         );
     }
@@ -32,7 +34,7 @@ class UserProductItem extends StatelessWidget {
 
         return Card(
             color: Colors.white60,
-            margin: EdgeInsets.all(5),
+            margin: const EdgeInsets.all(5),
             shadowColor: Theme.of(context).primaryColor,
             elevation: 20,
             child: ListTile(
@@ -46,20 +48,20 @@ class UserProductItem extends StatelessWidget {
                         children: [
                             IconButton(
                                 color: Theme.of(context).primaryColor,
-                                icon: Icon(Icons.edit),
+                                icon: const Icon(Icons.edit),
                                 onPressed: () {
                                     ///
                                     /// go to the edit product screen, pass the product id to it
                                     ///
                                     Navigator.of(context).pushNamed(
-                                        AppConstants.editProductScreenRoute,
+                                        AppRoutes.editProductScreenRoute,
                                         arguments: id
                                     );
                                 }
                             ),
                             IconButton(
                                 color: Theme.of(context).errorColor,
-                                icon: Icon(Icons.delete),
+                                icon: const Icon(Icons.delete),
                                 onPressed: () async {
                                     try {
                                         await productsProvider.deleteProduct(id);

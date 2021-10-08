@@ -58,7 +58,7 @@ class AuthScreen extends StatelessWidget {
                                             /// returns what the previous method returns, which is
                                             /// what the rotationZ() returns
                                             ///
-                                            transform: Matrix4.rotationZ(-10 * pi / 180)..translate(-10.0),
+                                            transform: Matrix4.rotationZ(-10 * pi / 180)..translate(-7.0),
                                             decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(20),
                                                 color: Colors.indigo.shade900,

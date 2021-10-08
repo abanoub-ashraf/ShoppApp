@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/providers/AuthProvider.dart';
 
 enum AuthMode { signUp, login }
 
@@ -28,7 +30,7 @@ class _AuthCardState extends State<AuthCard> {
     
     final _passwordController = TextEditingController();
 
-    void _submit() {
+    Future<void> _submit() async {
         final isValid = _formKey.currentState?.validate();
 
         if (isValid == false) {
@@ -46,7 +48,11 @@ class _AuthCardState extends State<AuthCard> {
         if (_authMode == AuthMode.login) {
             // Log user in
         } else {
-            // Sign user up
+            await Provider.of<AuthProvider>(context, listen: false)
+                .signup(
+                    _authData['email']!, 
+                    _authData['password']!
+                );
         }
         
         setState(() {
