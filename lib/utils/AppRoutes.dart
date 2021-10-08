@@ -1,7 +1,6 @@
 // ignore_for_file: file_names
 
 class AppRoutes {
-    /// Routes
     static const productsOverviewScreenRoute    = '/products-overview-screen';
     static const productDetailsRoute            = '/product-details';
     static const cartScreenRoute                = '/cart-screen';

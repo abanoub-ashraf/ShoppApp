@@ -2,9 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/models/HTTPException.dart';
 import 'package:shop_app/providers/AuthProvider.dart';
+import 'package:shop_app/utils/ErrorMessages.dart';
+import 'package:cool_alert/cool_alert.dart';
 
-enum AuthMode { signUp, login }
+enum AuthMode { 
+    signUp, 
+    login
+}
 
 class AuthCard extends StatefulWidget {
     const AuthCard({
@@ -45,23 +51,62 @@ class _AuthCardState extends State<AuthCard> {
             _isLoading = true;
         });
         
-        if (_authMode == AuthMode.login) {
-            await Provider.of<AuthProvider>(context, listen: false)
-                .signIn(
-                    _authData['email']!, 
-                    _authData['password']!
-                );
-        } else {
-            await Provider.of<AuthProvider>(context, listen: false)
-                .signup(
-                    _authData['email']!, 
-                    _authData['password']!
-                );
+        try {
+            if (_authMode == AuthMode.login) {
+                await Provider.of<AuthProvider>(context, listen: false)
+                    .signIn(
+                        _authData['email']!, 
+                        _authData['password']!
+                    );
+            } else {
+                await Provider.of<AuthProvider>(context, listen: false)
+                    .signup(
+                        _authData['email']!, 
+                        _authData['password']!
+                    );
+            }
+        } on HTTPException catch(error) {
+            var errorMessage = ErrorMessages.authFailed;
+
+            if (error.toString().contains('EMAIL_EXISTS')) {
+                errorMessage = ErrorMessages.emailAlreadyExists;
+            } else if (error.toString().contains('INVALID_EMAIL')) {
+                errorMessage = ErrorMessages.invalidEmail;
+            } else if (error.toString().contains('WEAK_PASSWORD')) {
+                errorMessage = ErrorMessages.weakPassword;
+            } else if (error.toString().contains('EMAIL_NOT_FOUND')) {
+                errorMessage = ErrorMessages.emailNotFound;
+            } else if (error.toString().contains('INVALID_PASSWORD')) {
+                errorMessage = ErrorMessages.invalidPassword;
+            }
+
+            _showErrorDialog(errorMessage);
+        } catch (error) {
+            const errorMessage = ErrorMessages.couldntAuth;
+
+            _showErrorDialog(errorMessage);
         }
         
         setState(() {
             _isLoading = false;
         });
+    }
+
+    void _showErrorDialog(String errorMessage) {
+        CoolAlert.show(
+            context: context,
+            title: 'Oops...',
+            type: CoolAlertType.error,
+            text: errorMessage,
+            confirmBtnText: 'Ok',
+            onConfirmBtnTap: () { Navigator.of(context).pop(); },
+            barrierDismissible: true,
+            confirmBtnColor: Colors.indigo.shade900,
+            animType: CoolAlertAnimType.rotate,
+            backgroundColor: Theme.of(context).primaryColorDark,
+            loopAnimation: true,
+            borderRadius: 20,
+        );
     }
 
     void _switchAuthMode() {
@@ -139,7 +184,9 @@ class _AuthCardState extends State<AuthCard> {
                                     height: 20,
                                 ),
                                 if (_isLoading)
-                                    const CircularProgressIndicator()
+                                    CircularProgressIndicator(
+                                        backgroundColor: Theme.of(context).primaryColorLight,
+                                    )
                                 else
                                     ElevatedButton(
                                         style: ElevatedButton.styleFrom(
@@ -153,7 +200,10 @@ class _AuthCardState extends State<AuthCard> {
                                             primary: Colors.indigo.shade900,
                                         ),
                                         child: Text(
-                                            _authMode == AuthMode.login ? 'LOGIN' : 'SIGN UP'
+                                            _authMode == AuthMode.login ? 'LOGIN' : 'SIGN UP',
+                                            style: TextStyle(
+                                                color: Theme.of(context).primaryColorLight,
+                                            ),
                                         ),
                                         onPressed: _submit,
                                     ),
@@ -169,7 +219,7 @@ class _AuthCardState extends State<AuthCard> {
                                         ),
                                     ),
                                     child: Text(
-                                        '${_authMode == AuthMode.login ? 'SIGNUP' : 'LOGIN'} INSTEAD'
+                                        '${_authMode == AuthMode.login ? 'SIGNUP' : 'LOGIN'} INSTEAD',
                                     ),
                                     onPressed: _switchAuthMode,
                                 ),
