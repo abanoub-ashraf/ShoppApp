@@ -12,6 +12,7 @@ import 'package:shop_app/screens/Orders/OrdersScreen.dart';
 import 'package:shop_app/screens/Products/UserProductsScreen.dart';
 import 'package:shop_app/screens/Products/EditProductScreen.dart';
 import 'package:shop_app/screens/Products/AddNewProductScreen.dart';
+import 'package:shop_app/utils/AppConstants.dart';
 import 'package:shop_app/utils/AppRoutes.dart';
 
 void main() => runApp(const MyApp());
@@ -47,26 +48,30 @@ class MyApp extends StatelessWidget {
                 ChangeNotifierProvider(create: (ctx) => OrdersProvider()),
                 ChangeNotifierProvider.value(value: AuthProvider())
             ],
-            child: MaterialApp(
-                title: 'ShopApp',
-                theme: ThemeData(
-                    fontFamily: 'Lato', 
-                    colorScheme: ColorScheme
-                        .fromSwatch(primarySwatch: Colors.indigo)
-                        .copyWith(secondary: Colors.indigoAccent)
-                ),
-                home: const AuthScreen(),
-                routes: {
-                    AppRoutes.productsOverviewScreenRoute:   (ctx) => const ProductsOverviewScreen(),
-                    AppRoutes.productDetailsRoute:           (ctx) => const ProductDetailsScreen(),
-                    AppRoutes.cartScreenRoute:               (ctx) => const CartScreen(),
-                    AppRoutes.ordersScreenRoute:             (ctx) => const OrdersScreen(),
-                    AppRoutes.userProductsScreenRoute:       (ctx) => const UserProductsScreen(),
-                    AppRoutes.editProductScreenRoute:        (ctx) => const EditProductScreen(),
-                    AppRoutes.addNewProductScreenRoute:      (ctx) => const AddNewProductScreen(),
-                    AppRoutes.authScreenRoute:               (ctx) => const AuthScreen(),
-                }
-            )
+            child: Consumer<AuthProvider>(
+                builder: (ctx, auth, _) => MaterialApp(
+                    title: AppConstants.appName,
+                    theme: ThemeData(
+                        fontFamily: 'Lato', 
+                        colorScheme: ColorScheme
+                            .fromSwatch(primarySwatch: Colors.indigo)
+                            .copyWith(secondary: Colors.indigoAccent)
+                    ),
+                    home: auth.isAuth 
+                        ? const ProductsOverviewScreen() 
+                        : const AuthScreen(),
+                    routes: {
+                        AppRoutes.productsOverviewScreenRoute:   (ctx) => const ProductsOverviewScreen(),
+                        AppRoutes.productDetailsRoute:           (ctx) => const ProductDetailsScreen(),
+                        AppRoutes.cartScreenRoute:               (ctx) => const CartScreen(),
+                        AppRoutes.ordersScreenRoute:             (ctx) => const OrdersScreen(),
+                        AppRoutes.userProductsScreenRoute:       (ctx) => const UserProductsScreen(),
+                        AppRoutes.editProductScreenRoute:        (ctx) => const EditProductScreen(),
+                        AppRoutes.addNewProductScreenRoute:      (ctx) => const AddNewProductScreen(),
+                        AppRoutes.authScreenRoute:               (ctx) => const AuthScreen(),
+                    }
+                )
+            ),
         );
     }
 }

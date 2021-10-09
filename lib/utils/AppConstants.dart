@@ -3,6 +3,10 @@
 import 'package:shop_app/utils/Config.dart';
 
 class AppConstants {
+    /// Strings
+    
+    static const appName            = 'ShopApp';
+    
     /// API
     
     static const apiBaseURL         = 'https://identitytoolkit.googleapis.com/v1';
