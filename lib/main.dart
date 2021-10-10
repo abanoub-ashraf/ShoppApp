@@ -43,10 +43,30 @@ class MyApp extends StatelessWidget {
             /// can listen to them as long as those places has listeners
             ///
             providers: [
-                ChangeNotifierProvider(create: (ctx) => ProductsProvider()),
+                ChangeNotifierProvider.value(value: AuthProvider()),
+                ///
+                /// - this provider depends on another provider that's already defined above it
+                /// 
+                /// - when the provider that this one depends on changes, this one only will rebuild
+                ///   not the entire providers array
+                /// 
+                /// - it takes that provider and another provider which is the data you will provide
+                /// 
+                /// - in the update: it gives me the auth provider that it depends on so i can use it
+                ///   and the previous state of the data i use to provide
+                /// 
+                /// - when this provider rebuild due to auth provider changing, pass the previous
+                ///   products state so we don't lose them after the rebuilt
+                ///
+                ChangeNotifierProxyProvider<AuthProvider, ProductsProvider>(
+                    update: (ctx, authProvider, previousProductsProvider) => ProductsProvider(
+                        authProvider.token ?? 'no token', 
+                        previousProductsProvider == null ? [] : previousProductsProvider.items
+                    ), 
+                    create: (ctx) => ProductsProvider('', []),
+                ),
                 ChangeNotifierProvider(create: (ctx) => CartProvider()),
                 ChangeNotifierProvider(create: (ctx) => OrdersProvider()),
-                ChangeNotifierProvider.value(value: AuthProvider())
             ],
             child: Consumer<AuthProvider>(
                 builder: (ctx, auth, _) => MaterialApp(

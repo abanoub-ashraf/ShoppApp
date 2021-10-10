@@ -1,15 +1,13 @@
 // ignore_for_file: file_names, library_prefixes
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as NetworkManager;
-import 'package:pretty_json/pretty_json.dart';
-
-import '../models/ProductModel.dart';
-import '../models/HTTPException.dart';
-
-import '../utils/AppConstants.dart';
+import 'package:print_color/print_color.dart';
+import 'package:shop_app/models/ProductModel.dart';
+import 'package:shop_app/models/HTTPException.dart';
+import 'package:shop_app/utils/ConsoleLogger.dart';
+import 'package:shop_app/utils/AppConstants.dart';
 
 ///
 /// - with keyword is mixin, like inheritance but not actually so
@@ -23,6 +21,12 @@ import '../utils/AppConstants.dart';
 ///
 class ProductsProvider with ChangeNotifier {
     List<ProductModel> _items = [];
+    
+    ///
+    /// the token we gonna use with every request to authenticate the user who is making
+    /// that request
+    ///
+    final String authToken;
 
     ///
     /// this gets a copy of the items, the latest copy with the latest changes
@@ -40,6 +44,8 @@ class ProductsProvider with ChangeNotifier {
         ).toList();
     }
 
+    ProductsProvider(this.authToken, this._items);
+
     ///
     /// return a product by its given id
     ///
@@ -53,13 +59,14 @@ class ProductsProvider with ChangeNotifier {
     /// fetch data from the server and fill the _items list with that data
     ///
     Future<void> fetchProductsAndSetProducts() async {
-        final url = AppConstants.productsDBCollectionURL;
+        ///
+        /// /products.json is the products table/collection in the firebase database
+        ///
+        final url = Uri.parse('${AppConstants.firebaseURL}/products.json?auth=$authToken');
 
         try {
             final response = await NetworkManager.get(url);
-
-            printPrettyJson(json.decode(response.body));
-            
+ 
             final extractedData = json.decode(response.body) as Map<String, dynamic>?;
 
             if (extractedData == null) {
@@ -85,8 +92,7 @@ class ProductsProvider with ChangeNotifier {
                 notifyListeners();
             });
         } catch (error) {
-            print('Error while fetching products');
-            throw error;
+            throw 'Error while fetching products';
         }
     } 
 
@@ -108,7 +114,10 @@ class ProductsProvider with ChangeNotifier {
     ///     - for handling errors, instead of then catch blocks we use try catch blocks
     ///
     Future<void> addProduct(ProductModel product) async {
-        final url = AppConstants.productsDBCollectionURL;
+        ///
+        /// /products.json is the products table/collection in the firebase database
+        ///
+        final url = Uri.parse('${AppConstants.firebaseURL}/products.json');
 
         try {
             final response = await NetworkManager.post(
@@ -137,7 +146,9 @@ class ProductsProvider with ChangeNotifier {
             /// 
             /// - json is available after importing dart convert built-in package
             ///
-            print('adding new product: ${json.decode(response.body)}');
+            Print.magenta('---------------------------------------');
+            ConsoleLogger.logger.e('adding new product: ${json.decode(response.body)}');
+            Print.magenta('---------------------------------------');
 
             final newProduct = ProductModel(
                 id: json.decode(response.body)['name'],
@@ -151,7 +162,7 @@ class ProductsProvider with ChangeNotifier {
 
             notifyListeners();
         } catch (error) {
-            print('Error while adding New Product: $error');
+            Print.red('Error while adding New Product: $error');
 
             ///
             /// throw means that if there's an error while we calling this add product from another place
@@ -168,7 +179,7 @@ class ProductsProvider with ChangeNotifier {
         final productIndex = _items.indexWhere((product) => product.id == id);
         
         if (productIndex >= 0) {
-            final url = Uri.https(AppConstants.firebaseURL, '/products/$id.json');
+            final url = Uri.parse('${AppConstants.firebaseURL}/products/$id.json');
 
             try {
                 final response = await NetworkManager.patch(
@@ -200,7 +211,7 @@ class ProductsProvider with ChangeNotifier {
     /// - it means if the deletion failed the product will be re-added again
     ///
     Future<void> deleteProduct(String id) async {
-        final url = Uri.https(AppConstants.firebaseURL, '/products/$id.json');
+        final url = Uri.parse('${AppConstants.firebaseURL}/products/$id.json');
 
         final existingProductIndex = _items.indexWhere((product) => product.id == id);
         
