@@ -2,14 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../providers/CartProvider.dart';
-
-import '../../models/ProductModel.dart';
-
-import '../../utils/AppRoutes.dart';
+import 'package:shop_app/providers/CartProvider.dart';
+import 'package:shop_app/providers/AuthProvider.dart';
+import 'package:shop_app/models/ProductModel.dart';
+import 'package:shop_app/utils/AppRoutes.dart';
 
 class ProductItem extends StatelessWidget {
+    const ProductItem({Key? key}) : super(key: key);
+
     SnackBar createSnackBar(String textString, ThemeData theme) {
         return SnackBar(
             content: Text(
@@ -40,6 +40,8 @@ class ProductItem extends StatelessWidget {
         /// - this is the cart provider container
         ///
         final cartProvider = Provider.of<CartProvider>(context, listen: false);
+
+        final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
         final scaffold = ScaffoldMessenger.of(context);
 
@@ -72,8 +74,6 @@ class ProductItem extends StatelessWidget {
                     ///   to the provider changes instead of having the entire tree as a listener
                     ///
                     leading: Consumer<ProductModel>(
-                        // child: const Text(''),
-                        
                         ///
                         /// child param means if i have something inside the builder: that i don't want
                         /// it to rebuild, i can refer to that something as `child` and above builder:
@@ -88,13 +88,10 @@ class ProductItem extends StatelessWidget {
                             ),
                             onPressed: () async {
                                 try {
-                                    await productModel.toggleFavoriteStatus();
+                                    await productModel.toggleFavoriteStatus(authProvider.token ?? 'no token');
                                 } catch (error) {
                                     scaffold.showSnackBar(
-                                        createSnackBar(
-                                            error.toString(), 
-                                            theme
-                                        )
+                                        createSnackBar(error.toString(), theme)
                                     );
                                 }
                             }
@@ -104,8 +101,8 @@ class ProductItem extends StatelessWidget {
                         child: Text(
                             productModelProvider.title, 
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor
+                            style: const TextStyle(
+                                color: Colors.indigo
                             )
                         )
                     ),

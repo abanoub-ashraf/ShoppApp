@@ -3,10 +3,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as NetworkManager;
+import 'package:pretty_json/pretty_json.dart';
 import 'package:print_color/print_color.dart';
 import 'package:shop_app/models/ProductModel.dart';
 import 'package:shop_app/models/HTTPException.dart';
-import 'package:shop_app/utils/ConsoleLogger.dart';
 import 'package:shop_app/utils/AppConstants.dart';
 
 ///
@@ -66,11 +66,14 @@ class ProductsProvider with ChangeNotifier {
 
         try {
             final response = await NetworkManager.get(url);
+
+            Print.green('------------- fetched products --------------');
+            printPrettyJson(json.decode(response.body));
  
             final extractedData = json.decode(response.body) as Map<String, dynamic>?;
 
             if (extractedData == null) {
-                throw 'There is no Products right now!';
+                throw 'there is no Products right now!';
             }
 
             final List<ProductModel> loadedProducts = [];
@@ -92,9 +95,10 @@ class ProductsProvider with ChangeNotifier {
                 notifyListeners();
             });
         } catch (error) {
+            Print.red(error);
             throw 'Error while fetching products';
         }
-    } 
+    }
 
     ///
     /// - in then catch blocks:
@@ -117,7 +121,7 @@ class ProductsProvider with ChangeNotifier {
         ///
         /// /products.json is the products table/collection in the firebase database
         ///
-        final url = Uri.parse('${AppConstants.firebaseURL}/products.json');
+        final url = Uri.parse('${AppConstants.firebaseURL}/products.json?auth=$authToken');
 
         try {
             final response = await NetworkManager.post(
@@ -146,14 +150,13 @@ class ProductsProvider with ChangeNotifier {
             /// 
             /// - json is available after importing dart convert built-in package
             ///
-            Print.magenta('---------------------------------------');
-            ConsoleLogger.logger.e('adding new product: ${json.decode(response.body)}');
-            Print.magenta('---------------------------------------');
+            Print.blue('-------------------- add product -------------------------');
+            printPrettyJson(json.decode(response.body));
 
             final newProduct = ProductModel(
                 id: json.decode(response.body)['name'],
                 title: product.title, 
-                description: product.description, 
+                description: product.description,
                 imageUrl: product.imageUrl,
                 price: product.price
             );
@@ -162,13 +165,13 @@ class ProductsProvider with ChangeNotifier {
 
             notifyListeners();
         } catch (error) {
-            Print.red('Error while adding New Product: $error');
+            Print.red(error);
 
             ///
             /// throw means that if there's an error while we calling this add product from another place
             /// the error will be passed to that place to deal with it with the help of the ui
             ///
-            throw error;
+            throw 'Error while adding New Product';
         }
     }
 
@@ -179,7 +182,7 @@ class ProductsProvider with ChangeNotifier {
         final productIndex = _items.indexWhere((product) => product.id == id);
         
         if (productIndex >= 0) {
-            final url = Uri.parse('${AppConstants.firebaseURL}/products/$id.json');
+            final url = Uri.parse('${AppConstants.firebaseURL}/products/$id.json?auth=$authToken');
 
             try {
                 final response = await NetworkManager.patch(
@@ -192,13 +195,15 @@ class ProductsProvider with ChangeNotifier {
                     })
                 );
 
-                print(response.statusCode);
+                Print.yellow('------------- update product --------------');
+                printPrettyJson(json.decode(response.body));
+                Print.yellow('-------------------------------------------');
 
                 _items[productIndex] = newProduct;
                 notifyListeners();
             } catch (error) {
-                print('Error while updating a Product: $error');
-                throw error;
+                Print.red(error);
+                throw 'Error while updating a Product';
             }
         } else {
             throw 'Can\'t find the product you wanna update';
@@ -211,7 +216,7 @@ class ProductsProvider with ChangeNotifier {
     /// - it means if the deletion failed the product will be re-added again
     ///
     Future<void> deleteProduct(String id) async {
-        final url = Uri.parse('${AppConstants.firebaseURL}/products/$id.json');
+        final url = Uri.parse('${AppConstants.firebaseURL}/products/$id.json?auth=$authToken');
 
         final existingProductIndex = _items.indexWhere((product) => product.id == id);
         
@@ -221,10 +226,16 @@ class ProductsProvider with ChangeNotifier {
         notifyListeners();
        
         final response = await NetworkManager.delete(url);
+
+        Print.white('------------- delete product --------------');
+        printPrettyJson(json.decode(response.body));
+        Print.white('-------------------------------------------');
     
         if (response.statusCode >= 400) {
             _items.insert(existingProductIndex, existingProduct);
             notifyListeners();
+            
+            printPrettyJson(json.decode(response.body));
             
             throw HTTPException('Deleting Failed! Please try again.').message;
         }

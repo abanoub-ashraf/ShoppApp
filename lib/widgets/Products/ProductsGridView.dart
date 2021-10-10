@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -29,7 +31,7 @@ class ProductsGridView extends StatelessWidget {
         return GridView.builder(
             padding: const EdgeInsets.all(10),
             itemCount: products.length,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 3 / 2,
                 crossAxisSpacing: 10,
@@ -48,7 +50,7 @@ class ProductsGridView extends StatelessWidget {
                 ///   doesn't depend on the context, this is the recommended approach
                 ///
                 value: products[index],
-                child: ProductItem()
+                child: const ProductItem()
             )
         );
     }

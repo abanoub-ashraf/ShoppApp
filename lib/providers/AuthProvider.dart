@@ -3,10 +3,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as NetworkManager;
+import 'package:pretty_json/pretty_json.dart';
 import 'package:print_color/print_color.dart';
 import 'package:shop_app/models/HTTPException.dart';
 import 'package:shop_app/utils/AppConstants.dart';
-import 'package:shop_app/utils/ConsoleLogger.dart';
 
 class AuthProvider extends ChangeNotifier {
     String _token           = '';
@@ -41,13 +41,15 @@ class AuthProvider extends ChangeNotifier {
                     'returnSecureToken': true
                 })
             );
-
+            
             final responseData = json.decode(response.body);
 
+            Print.cyan('------------- Authentication --------------');
+            printPrettyJson(json.decode(response.body));
+
             if (responseData['error'] != null) {
-                Print.red('------------------------------------------');
-                ConsoleLogger.logger.e(json.decode(response.body));
-                Print.red('------------------------------------------');
+                Print.red('----------------- authentication response error -------------------------');
+                printPrettyJson(json.decode(response.body));
 
                 throw HTTPException(responseData['error']['message']);
             }
@@ -63,8 +65,11 @@ class AuthProvider extends ChangeNotifier {
 
             notifyListeners();
 
-            ConsoleLogger.logger.i(json.decode(response.body));
+            Print.green('----------------- authentication done -------------------------');
+            printPrettyJson(json.decode(response.body));
+            
         } catch(error) {
+            Print.red('authentication error: $error');
             rethrow;
         }
     }

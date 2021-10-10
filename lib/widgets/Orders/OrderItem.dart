@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -20,13 +22,13 @@ class _OrderItemState extends State<OrderItem> {
     @override
     Widget build(BuildContext context) {
         return Card(
-            elevation: 8,
+            elevation: 5,
             shadowColor: Theme.of(context).primaryColor,
-            margin: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
             child: Column(
                 children: [
                     ListTile(
-                        contentPadding: EdgeInsets.all(6),
+                        contentPadding: const EdgeInsets.all(6),
                         title: Text(
                             'Total Cost:  \$ ${widget.orderModel.amount.toStringAsFixed(2)}',
                             style: TextStyle(
@@ -35,10 +37,10 @@ class _OrderItemState extends State<OrderItem> {
                             )
                         ),
                         subtitle: Padding(
-                            padding: EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(8),
                             child: Text(
                                 'Ordered At: ${DateFormat('dd-MM-yyyy hh:mm a').format(widget.orderModel.dateTime)}',
-                                style: TextStyle(fontSize: 15)
+                                style: const TextStyle(fontSize: 15)
                             )
                         ),
                         ///
@@ -60,7 +62,7 @@ class _OrderItemState extends State<OrderItem> {
                         /// if this bool variable is true
                         ///
                         Container(
-                            padding: EdgeInsets.symmetric(
+                            padding: const EdgeInsets.symmetric(
                                 vertical: 4, 
                                 horizontal: 15
                             ),
@@ -76,7 +78,7 @@ class _OrderItemState extends State<OrderItem> {
                                             children: [
                                                 Text(
                                                     product.title, 
-                                                    style: TextStyle(
+                                                    style: const TextStyle(
                                                         fontSize: 16, 
                                                         fontWeight: FontWeight.w300
                                                     )

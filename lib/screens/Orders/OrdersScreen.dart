@@ -48,9 +48,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
     Widget build(BuildContext context) {
         return Scaffold(
             appBar: AppBar(
-                title: Text('Your Orders')
+                title: const Text('Your Orders')
             ),
-            drawer: AppDrawer(),
+            drawer: const AppDrawer(),
             ///
             /// - this creates a widget that builds itself based on the latest snapshot 
             ///   of interaction with a [Future]
@@ -66,19 +66,19 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 future: _ordersFuture,
                 builder: (ctx, dataSnapShot) {
                     if (dataSnapShot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                     } else {
                         if (dataSnapShot.error != null) {
                             if (Provider.of<OrdersProvider>(context).orders.length == 0) {
-                                return NoItemsWidget(
+                                return const NoItemsWidget(
                                     'There\'s no Orders in here\n click on Browse to browse Products'
                                 );
                             }
 
-                            return NoItemsWidget('An Error occurred!');
+                            return const NoItemsWidget('An Error occurred!');
                         } else {
                             if (Provider.of<OrdersProvider>(context).orders.length == 0) {
-                                return NoItemsWidget(
+                                return const NoItemsWidget(
                                     'There\'s no Orders in here\n click on Browse to browse Products'
                                 );
                             }

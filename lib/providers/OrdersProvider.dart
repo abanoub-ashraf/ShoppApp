@@ -1,18 +1,20 @@
 // ignore_for_file: file_names, library_prefixes
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as NetworkManager;
 import 'package:pretty_json/pretty_json.dart';
-
-import '../models/OrderItemModel.dart';
-import '../models/CartItemModel.dart';
-
-import '../utils/AppConstants.dart';
+import 'package:print_color/print_color.dart';
+import 'package:shop_app/models/OrderItemModel.dart';
+import 'package:shop_app/models/CartItemModel.dart';
+import 'package:shop_app/utils/AppConstants.dart';
 
 class OrdersProvider with ChangeNotifier {
     List<OrderItemModel> _orders = [];
+
+    final String authToken;
+
+    OrdersProvider(this.authToken, this._orders);
 
     List<OrderItemModel> get orders {
         return [..._orders];
@@ -22,12 +24,14 @@ class OrdersProvider with ChangeNotifier {
     /// fetch data from the server and fill the _orders list with that data
     ///
     Future<void> fetchOrdersAndSetOrders() async {
-        final url = AppConstants.ordersDBCollectionURL;
+        final url = Uri.parse('${AppConstants.firebaseURL}/orders.json?auth=$authToken');
 
         try {
             final response = await NetworkManager.get(url);
 
+            Print.yellow('------------- fetched orders --------------');
             printPrettyJson(json.decode(response.body));
+            Print.yellow('-------------------------------------------');
             
             final List<OrderItemModel> loadedOrders = [];
 
@@ -65,8 +69,8 @@ class OrdersProvider with ChangeNotifier {
 
             notifyListeners();
         } catch (error) {
-            print('Error while fetching products');
-            throw error;
+            Print.red(error);
+            throw 'Error while fetching products';
         }
     }
 
@@ -76,7 +80,7 @@ class OrdersProvider with ChangeNotifier {
     /// - insert at index 0, meant the most recent orders are gonna be at the beginning of the list
     ///
     Future<void> addOrder(List<CartItemModel> cartProducts, double total) async {
-        final url = AppConstants.ordersDBCollectionURL;
+        final url = Uri.parse('${AppConstants.firebaseURL}/orders.json?auth=$authToken');
 
         final timestamp = DateTime.now();
 
@@ -97,7 +101,9 @@ class OrdersProvider with ChangeNotifier {
                 })
             );
 
-            printPrettyJson('Adding new order: ${json.decode(response.body)}');
+            Print.magenta('--------------------added new product --------------------');
+            printPrettyJson(json.decode(response.body));
+            Print.magenta('----------------------------------------------------------');
 
             _orders.insert(
                 0, 
@@ -111,8 +117,8 @@ class OrdersProvider with ChangeNotifier {
 
             notifyListeners();
         } catch (error) {
-            print('Error while creating a new order: $error');
-            throw error;
+            Print.red(error);
+            throw 'Error while creating a new order';
         }
     }
 }

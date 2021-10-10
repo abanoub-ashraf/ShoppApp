@@ -21,8 +21,4 @@ class AppConstants {
     /// the base url shouldn't include the `https://` if i am gonna use Uri.https() method
     ///
     static const firebaseURL                = 'https://shopapp-flutter-1dfc8-default-rtdb.firebaseio.com';
-    ///
-    /// /orders.json is the orders table/collection in the firebase database
-    ///
-    static final ordersDBCollectionURL      = Uri.https(firebaseURL, '/orders.json');
 }

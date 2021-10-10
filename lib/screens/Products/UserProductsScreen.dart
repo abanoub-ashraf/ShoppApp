@@ -34,7 +34,7 @@ class UserProductsScreen extends StatelessWidget {
                 title: const Text('Manage Your Products'),
                 actions: [
                     IconButton(
-                        padding: EdgeInsets.symmetric(
+                        padding: const EdgeInsets.symmetric(
                             horizontal: 25
                         ),
                         icon: const Icon(
@@ -47,13 +47,13 @@ class UserProductsScreen extends StatelessWidget {
                     )
                 ]
             ),
-            drawer: AppDrawer(),
+            drawer: const AppDrawer(),
             ///
             /// this is for pulling to refresh
             ///
             body: RefreshIndicator(
                 child: Padding(
-                    padding: EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                     child: ListView.builder(
                         itemCount: productsProvider.items.length,
                         itemBuilder: (_, index) => UserProductItem(

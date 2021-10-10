@@ -2,10 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../../providers/ProductsProvider.dart';
-
-import '../../utils/AppRoutes.dart';
+import 'package:shop_app/providers/ProductsProvider.dart';
+import 'package:shop_app/utils/AppRoutes.dart';
 
 class UserProductItem extends StatelessWidget {
     final String id;
@@ -35,8 +33,8 @@ class UserProductItem extends StatelessWidget {
         return Card(
             color: Colors.white60,
             margin: const EdgeInsets.all(5),
-            shadowColor: Theme.of(context).primaryColor,
-            elevation: 20,
+            shadowColor: Colors.indigo.shade400,
+            elevation: 15,
             child: ListTile(
                 title: Text(title),
                 leading: CircleAvatar(
@@ -47,7 +45,7 @@ class UserProductItem extends StatelessWidget {
                     child: Row(
                         children: [
                             IconButton(
-                                color: Theme.of(context).primaryColor,
+                                color: Theme.of(context).colorScheme.secondary,
                                 icon: const Icon(Icons.edit),
                                 onPressed: () {
                                     ///

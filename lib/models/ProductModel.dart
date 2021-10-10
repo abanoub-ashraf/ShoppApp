@@ -1,13 +1,10 @@
 // ignore_for_file: file_names, library_prefixes
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as NetworkManager;
-
-import '../models/HTTPException.dart';
-
-import '../utils/AppConstants.dart';
+import 'package:shop_app/models/HTTPException.dart';
+import 'package:shop_app/utils/AppConstants.dart';
 
 ///
 /// - with keyword is mixin, like inheritance but not actually so
@@ -43,7 +40,7 @@ class ProductModel with ChangeNotifier {
     /// 
     /// - rollback to the old status if updating to the new status is failed
     ///
-    Future<void> toggleFavoriteStatus() async {
+    Future<void> toggleFavoriteStatus(String token) async {
         ///
         /// store a copy of the old status first so we can roll back to it 
         /// if the updating failed
@@ -54,7 +51,7 @@ class ProductModel with ChangeNotifier {
 
         notifyListeners();
         
-        final url = Uri.https(AppConstants.firebaseURL, '/products/$id.json');
+        final url = Uri.parse('${AppConstants.firebaseURL}/products/$id.json?auth=$token');
         
         try {
             final response = await NetworkManager.patch(
@@ -73,7 +70,7 @@ class ProductModel with ChangeNotifier {
             }
         } catch (error) {
             _setFavValue(oldStatus);
-            throw error;
+            rethrow;
         }
     }
 }
