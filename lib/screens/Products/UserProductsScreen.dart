@@ -22,13 +22,11 @@ class UserProductsScreen extends StatelessWidget {
         /// - that avoids unnecessary widget rebuilds
         ///
         await Provider.of<ProductsProvider>(context, listen: false)
-            .fetchProductsAndSetProducts();
+            .fetchProductsAndSetProducts(true);
     }
 
     @override
     Widget build(BuildContext context) {
-        final productsProvider = Provider.of<ProductsProvider>(context);
-
         return Scaffold(
             appBar: AppBar(
                 title: const Text('Manage Your Products'),
@@ -51,19 +49,28 @@ class UserProductsScreen extends StatelessWidget {
             ///
             /// this is for pulling to refresh
             ///
-            body: RefreshIndicator(
-                child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: ListView.builder(
-                        itemCount: productsProvider.items.length,
-                        itemBuilder: (_, index) => UserProductItem(
-                            productsProvider.items[index].id,
-                            productsProvider.items[index].title,
-                            productsProvider.items[index].imageUrl
-                        )
-                    )
+            body: FutureBuilder(
+                future: _refreshProducts(context),
+                builder: (ctx, snapshot) => snapshot.connectionState == ConnectionState.waiting 
+                    ? const Center(
+                        child: CircularProgressIndicator()
+                    ) 
+                    : RefreshIndicator(
+                    onRefresh: () => _refreshProducts(context),
+                    child: Consumer<ProductsProvider>(
+                        builder: (ctx, productsData, child) => Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: ListView.builder(
+                                itemCount: productsData.items.length,
+                                itemBuilder: (_, index) => UserProductItem(
+                                    productsData.items[index].id,
+                                    productsData.items[index].title,
+                                    productsData.items[index].imageUrl
+                                )
+                            )
+                        ),
+                    ),
                 ),
-                onRefresh: () => _refreshProducts(context)
             )
         );
     }

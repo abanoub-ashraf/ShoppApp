@@ -62,11 +62,17 @@ class ProductsProvider with ChangeNotifier {
     ///
     /// fetch data from the server and fill the _items list with that data
     ///
-    Future<void> fetchProductsAndSetProducts() async {
+    Future<void> fetchProductsAndSetProducts([bool filterByUser = false]) async {
+        final filterString = filterByUser ? '&orderBy="userId"&equalTo="$userId"' : '';
+        ///
+        /// to fetch only the products that belongs to the current user
+        ///
+        final queryParams = 'auth=$authToken$filterString';
+
         ///
         /// /products.json is the products table/collection in the firebase database
         ///
-        var url = Uri.parse('${AppConstants.firebaseURL}/products.json?auth=$authToken');
+        var url = Uri.parse('${AppConstants.firebaseURL}/products.json?$queryParams');
 
         try {
             final response = await NetworkManager.get(url);
@@ -152,7 +158,8 @@ class ProductsProvider with ChangeNotifier {
                     'title': product.title,
                     'description': product.description,
                     'price': product.price,
-                    'imageUrl': product.imageUrl
+                    'imageUrl': product.imageUrl,
+                    'userId': userId
                 })
             );
 

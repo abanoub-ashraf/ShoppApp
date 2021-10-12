@@ -80,7 +80,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
             Provider.of<ProductsProvider>(context)
                 .fetchProductsAndSetProducts()
                 .catchError((error) {
-                    showDialog<Null>(
+                    showDialog<void>(
                         context: context, 
                         builder: (ctx) => AlertDialog(
                             title: const Text('Something went wrong.'),
