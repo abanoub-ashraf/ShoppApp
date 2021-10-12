@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/providers/AuthProvider.dart';
 import 'package:shop_app/utils/AppRoutes.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -98,6 +100,22 @@ class AppDrawer extends StatelessWidget {
                             /// go to the user products screen
                             ///
                             Navigator.of(context).pushReplacementNamed(AppRoutes.userProductsScreenRoute);
+                        }
+                    ),
+                    ListTile(
+                        leading: Icon(
+                            Icons.logout,
+                            size: 40,
+                            color: Theme.of(context).primaryColor
+                        ),
+                        title: Text(
+                            'Logout',
+                            style: createStyle(context)
+                        ),
+                        onTap: () {
+                            Navigator.of(context).pop();
+                            
+                            Provider.of<AuthProvider>(context, listen: false).logout();
                         }
                     )
                 ]

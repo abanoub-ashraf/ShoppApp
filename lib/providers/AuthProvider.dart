@@ -89,4 +89,12 @@ class AuthProvider extends ChangeNotifier {
     Future<void> signIn(String email, String password) async {        
         return _authenticate(email, password, AppConstants.signInEndpoint);
     }
+
+    void logout() {
+        _token          = '';
+        _userId         = '';
+        _expiryDate     = DateTime.now();
+        
+        notifyListeners();
+    }
 }
