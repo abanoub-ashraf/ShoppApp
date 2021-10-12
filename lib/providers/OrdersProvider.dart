@@ -101,7 +101,7 @@ class OrdersProvider with ChangeNotifier {
                 })
             );
 
-            Print.magenta('--------------------added new product --------------------');
+            Print.magenta('--------------------added new order --------------------');
             printPrettyJson(json.decode(response.body));
             Print.magenta('----------------------------------------------------------');
 

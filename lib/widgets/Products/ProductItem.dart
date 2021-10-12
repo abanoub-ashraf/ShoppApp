@@ -88,7 +88,10 @@ class ProductItem extends StatelessWidget {
                             ),
                             onPressed: () async {
                                 try {
-                                    await productModel.toggleFavoriteStatus(authProvider.token ?? 'no token');
+                                    await productModel.toggleFavoriteStatus(
+                                        authProvider.token ?? 'no token',
+                                        authProvider.userId ?? 'no user'
+                                    );
                                 } catch (error) {
                                     scaffold.showSnackBar(
                                         createSnackBar(error.toString(), theme)

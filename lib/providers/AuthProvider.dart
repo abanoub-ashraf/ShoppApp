@@ -31,6 +31,14 @@ class AuthProvider extends ChangeNotifier {
         return null;
     }
 
+    String? get userId {
+        if (_expiryDate.isAfter(DateTime.now())) {
+            return _userId;
+        }
+
+        return null;
+    }
+
     Future<void> _authenticate(String email, String password, Uri endpoint) async {
         try {
             final response = await NetworkManager.post(
@@ -67,7 +75,7 @@ class AuthProvider extends ChangeNotifier {
 
             Print.green('----------------- authentication done -------------------------');
             printPrettyJson(json.decode(response.body));
-            
+
         } catch(error) {
             Print.red('authentication error: $error');
             rethrow;

@@ -40,7 +40,7 @@ class ProductModel with ChangeNotifier {
     /// 
     /// - rollback to the old status if updating to the new status is failed
     ///
-    Future<void> toggleFavoriteStatus(String token) async {
+    Future<void> toggleFavoriteStatus(String token, String userId) async {
         ///
         /// store a copy of the old status first so we can roll back to it 
         /// if the updating failed
@@ -51,17 +51,20 @@ class ProductModel with ChangeNotifier {
 
         notifyListeners();
         
-        final url = Uri.parse('${AppConstants.firebaseURL}/products/$id.json?auth=$token');
+        ///
+        /// - save the user favorites in a new collection
+        /// 
+        /// - override it if it was already saved in there
+        ///
+        final url = Uri.parse('${AppConstants.firebaseURL}/userFavorites/$userId/$id.json?auth=$token');
         
         try {
-            final response = await NetworkManager.patch(
+            final response = await NetworkManager.put(
                 url,
                 ///
                 /// the body can have the only fields we wanna update on the server 
                 ///
-                body: json.encode({
-                    'isFavorite': isFavorite
-                })
+                body: json.encode(isFavorite)
             );
 
             if (response.statusCode >= 400) {

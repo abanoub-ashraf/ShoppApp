@@ -23,10 +23,14 @@ class ProductsProvider with ChangeNotifier {
     List<ProductModel> _items = [];
     
     ///
-    /// the token we gonna use with every request to authenticate the user who is making
-    /// that request
-    ///
+    /// the token we gonna use with every request to authenticate 
+    /// the user who is making that request
+    /// 
     final String authToken;
+    /// 
+    /// - the user id is for fetching the user favorites
+    ///
+    final String userId;
 
     ///
     /// this gets a copy of the items, the latest copy with the latest changes
@@ -44,7 +48,7 @@ class ProductsProvider with ChangeNotifier {
         ).toList();
     }
 
-    ProductsProvider(this.authToken, this._items);
+    ProductsProvider(this.authToken, this.userId, this._items);
 
     ///
     /// return a product by its given id
@@ -62,19 +66,31 @@ class ProductsProvider with ChangeNotifier {
         ///
         /// /products.json is the products table/collection in the firebase database
         ///
-        final url = Uri.parse('${AppConstants.firebaseURL}/products.json?auth=$authToken');
+        var url = Uri.parse('${AppConstants.firebaseURL}/products.json?auth=$authToken');
 
         try {
             final response = await NetworkManager.get(url);
 
             Print.green('------------- fetched products --------------');
             printPrettyJson(json.decode(response.body));
+            Print.yellow('---------------------------------------------------------------------------');
+            Print.yellow(authToken);
+            Print.yellow('---------------------------------------------------------------------------');
  
             final extractedData = json.decode(response.body) as Map<String, dynamic>?;
 
             if (extractedData == null) {
                 throw 'there is no Products right now!';
             }
+
+            ///
+            /// fetch the user favorites
+            ///
+            url = Uri.parse('${AppConstants.firebaseURL}/userFavorites/$userId.json?auth=$authToken');
+            
+            final favoriteResponse = await NetworkManager.get(url);
+            
+            final favoriteData = json.decode(favoriteResponse.body);
 
             final List<ProductModel> loadedProducts = [];
 
@@ -86,7 +102,10 @@ class ProductsProvider with ChangeNotifier {
                         description: productData['description'], 
                         imageUrl: productData['imageUrl'], 
                         price: productData['price'],
-                        isFavorite: productData['isFavorite']
+                        ///
+                        /// if the favorite is null then the user doesn't have any favorites yet
+                        ///
+                        isFavorite: favoriteData == null ? false : favoriteData[productId] ?? false
                     )
                 );
 
@@ -133,8 +152,7 @@ class ProductsProvider with ChangeNotifier {
                     'title': product.title,
                     'description': product.description,
                     'price': product.price,
-                    'imageUrl': product.imageUrl,
-                    'isFavorite': product.isFavorite
+                    'imageUrl': product.imageUrl
                 })
             );
 
@@ -152,6 +170,8 @@ class ProductsProvider with ChangeNotifier {
             ///
             Print.blue('-------------------- add product -------------------------');
             printPrettyJson(json.decode(response.body));
+
+            Print.magenta(authToken);
 
             final newProduct = ProductModel(
                 id: json.decode(response.body)['name'],
