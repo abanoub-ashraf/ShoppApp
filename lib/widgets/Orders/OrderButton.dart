@@ -1,11 +1,9 @@
 // ignore_for_file: file_names
 
 import 'package:flutter/material.dart';
-
-import '../../providers/CartProvider.dart';
-import '../../providers/OrdersProvider.dart';
-
-import '../../utils/AppRoutes.dart';
+import 'package:shop_app/providers/CartProvider.dart';
+import 'package:shop_app/providers/OrdersProvider.dart';
+import 'package:shop_app/utils/AppRoutes.dart';
 
 class OrderButton extends StatefulWidget {
     final CartProvider cartProvider;
@@ -31,6 +29,9 @@ class _OrderButtonState extends State<OrderButton> {
                 ? const CircularProgressIndicator() 
                 : const Text('ORDER NOW'),
             style: ButtonStyle(
+                padding: MaterialStateProperty.all(
+                    const EdgeInsets.all(10)
+                ),
                 backgroundColor: _isLoading 
                     ? MaterialStateProperty.all(Colors.white) 
                     : MaterialStateProperty.all(Theme.of(context).primaryColor),
@@ -61,7 +62,7 @@ class _OrderButtonState extends State<OrderButton> {
 
                         Navigator.of(context).pushNamed(AppRoutes.ordersScreenRoute);
                     } catch (error) {
-                        await showDialog<Null>(
+                        await showDialog<void>(
                             context: context, 
                             builder: (ctx) => AlertDialog(
                                 title: const Text('An Error occurred!'),

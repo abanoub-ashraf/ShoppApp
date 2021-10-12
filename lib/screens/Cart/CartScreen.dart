@@ -2,13 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 ///
 /// if i only wanna import something specific from this file not the entire file
 ///
 import '../../providers/CartProvider.dart' show CartProvider;
 import '../../providers/OrdersProvider.dart';
-
 ///
 /// i can give a name to the class/file i imported then use it with that name
 ///
@@ -40,7 +38,7 @@ class CartScreen extends StatelessWidget {
                 ]
             ),
             body: cartProvider.items.length == 0 
-                ? NoItemsWidget('Your Cart is Empty\n click on Browse to browse Products')
+                ? const NoItemsWidget('Your Cart is Empty\n click on Browse to browse Products')
                 : Column(
                     children: [
                         const SizedBox(
@@ -82,22 +80,22 @@ class CartScreen extends StatelessWidget {
                         ///
                         Card(
                             elevation: 6,
-                            margin: EdgeInsets.all(15),
+                            margin: const EdgeInsets.all(15),
                             child: Padding(
-                                padding: EdgeInsets.all(8),
+                                padding: const EdgeInsets.all(8),
                                 ///
                                 /// the card contains the total amount and the order now button
                                 ///
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
-                                        Text(
+                                        const Text(
                                             'Total Price: ',
                                             style: TextStyle(
                                                 fontSize: 20
                                             )
                                         ),
-                                        Spacer(),
+                                        const Spacer(),
                                         Chip(
                                             label: Text(
                                                 '\$ ${cartProvider.totalAmount.toStringAsFixed(2)}', 
@@ -114,14 +112,14 @@ class CartScreen extends StatelessWidget {
                                 )
                             )
                         ),
-                        SizedBox(
+                        const SizedBox(
                             height: 10
                         ),
                         OrderButton(
                             cartProvider: cartProvider, 
                             ordersProvider: ordersProvider
                         ),
-                        SizedBox(
+                        const SizedBox(
                             height: 40
                         )
                     ]

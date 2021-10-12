@@ -66,7 +66,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                 future: _ordersFuture,
                 builder: (ctx, dataSnapShot) {
                     if (dataSnapShot.connectionState == ConnectionState.waiting) {
-                        return const Center(child: CircularProgressIndicator());
+                        return const Center(
+                            child: CircularProgressIndicator()
+                        );
                     } else {
                         if (dataSnapShot.error != null) {
                             if (Provider.of<OrdersProvider>(context).orders.length == 0) {
@@ -82,7 +84,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                     'There\'s no Orders in here\n click on Browse to browse Products'
                                 );
                             }
-
                             return Consumer<OrdersProvider>(
                                 builder: (ctx, orderData, child) => ListView.builder(
                                     itemCount: orderData.orders.length,

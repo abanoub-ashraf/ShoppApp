@@ -13,8 +13,9 @@ class OrdersProvider with ChangeNotifier {
     List<OrderItemModel> _orders = [];
 
     final String authToken;
+    final String userId;
 
-    OrdersProvider(this.authToken, this._orders);
+    OrdersProvider(this.authToken, this.userId, this._orders);
 
     List<OrderItemModel> get orders {
         return [..._orders];
@@ -24,7 +25,7 @@ class OrdersProvider with ChangeNotifier {
     /// fetch data from the server and fill the _orders list with that data
     ///
     Future<void> fetchOrdersAndSetOrders() async {
-        final url = Uri.parse('${AppConstants.firebaseURL}/orders.json?auth=$authToken');
+        final url = Uri.parse('${AppConstants.firebaseURL}/orders/$userId.json?auth=$authToken');
 
         try {
             final response = await NetworkManager.get(url);
@@ -80,7 +81,7 @@ class OrdersProvider with ChangeNotifier {
     /// - insert at index 0, meant the most recent orders are gonna be at the beginning of the list
     ///
     Future<void> addOrder(List<CartItemModel> cartProducts, double total) async {
-        final url = Uri.parse('${AppConstants.firebaseURL}/orders.json?auth=$authToken');
+        final url = Uri.parse('${AppConstants.firebaseURL}/orders/$userId.json?auth=$authToken');
 
         final timestamp = DateTime.now();
 
