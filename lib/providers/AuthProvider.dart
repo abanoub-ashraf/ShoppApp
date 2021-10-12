@@ -1,5 +1,6 @@
 // ignore_for_file: file_names, library_prefixes
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as NetworkManager;
@@ -12,6 +13,7 @@ class AuthProvider extends ChangeNotifier {
     String _token           = '';
     DateTime _expiryDate    = DateTime.now();
     String _userId          = '';
+    Timer? _authTimer;
 
     bool get isAuth {
         ///
@@ -71,6 +73,11 @@ class AuthProvider extends ChangeNotifier {
                 Duration(seconds: int.parse(responseData['expiresIn']))
             );
 
+            ///
+            /// start the count down for auto logout the moment we log in
+            ///
+            _autoLogout();
+
             notifyListeners();
 
             Print.green('----------------- authentication done -------------------------');
@@ -94,7 +101,33 @@ class AuthProvider extends ChangeNotifier {
         _token          = '';
         _userId         = '';
         _expiryDate     = DateTime.now();
+
+        ///
+        /// if there's auth timer that's already counting then cancel it then set it to null
+        ///
+        if (_authTimer != null) {
+            _authTimer!.cancel();
+
+            _authTimer = null;
+        }
         
         notifyListeners();
+    }
+
+    ///
+    /// - the timer execute a function after some time
+    /// 
+    /// - the time is the difference between the expiry data and the current time
+    ///   and the function is the logout() function
+    ///
+    void _autoLogout() {
+        ///
+        /// if there's any timer that's counting cancel it before starting a new one
+        ///
+        if (_authTimer != null) {
+            _authTimer!.cancel();
+        }
+        final timeToExpiry = _expiryDate.difference(DateTime.now()).inSeconds;
+        _authTimer = Timer(Duration(seconds: timeToExpiry), logout);
     }
 }
