@@ -28,6 +28,7 @@ dependencies:
   pretty_json: ^2.0.0
   cool_alert: ^1.1.0
   logger: ^1.1.0
+  shared_preferences: ^2.0.8
   cupertino_icons: ^1.0.2
 
 dev_dependencies:

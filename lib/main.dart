@@ -12,6 +12,7 @@ import 'package:shop_app/screens/Orders/OrdersScreen.dart';
 import 'package:shop_app/screens/Products/UserProductsScreen.dart';
 import 'package:shop_app/screens/Products/EditProductScreen.dart';
 import 'package:shop_app/screens/Products/AddNewProductScreen.dart';
+import 'package:shop_app/widgets/Components/SplashScreen.dart';
 import 'package:shop_app/utils/AppConstants.dart';
 import 'package:shop_app/utils/AppRoutes.dart';
 
@@ -86,8 +87,18 @@ class MyApp extends StatelessWidget {
                             .copyWith(secondary: Colors.indigoAccent)
                     ),
                     home: auth.isAuth 
+                        ///
+                        /// if we are authenticated go to the products page, if we not, 
+                        /// try to auto login
+                        ///
                         ? const ProductsOverviewScreen() 
-                        : const AuthScreen(),
+                        : FutureBuilder(
+                            future: auth.tryAutoLogin(),
+                            builder: (ctx, authResultSnapshot) => 
+                                authResultSnapshot.connectionState == ConnectionState.waiting 
+                                    ? const SplashScreen() 
+                                    : const AuthScreen()
+                        ),
                     routes: {
                         AppRoutes.productsOverviewScreenRoute:   (ctx) => const ProductsOverviewScreen(),
                         AppRoutes.productDetailsRoute:           (ctx) => const ProductDetailsScreen(),

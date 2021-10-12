@@ -114,6 +114,11 @@ class AppDrawer extends StatelessWidget {
                         ),
                         onTap: () {
                             Navigator.of(context).pop();
+                            ///
+                            /// this line is for making sure to always go to home after logging out
+                            /// and that home will trigger the auth and take us to the AuthScreen
+                            ///
+                            Navigator.of(context).pushReplacementNamed('/');
                             
                             Provider.of<AuthProvider>(context, listen: false).logout();
                         }
